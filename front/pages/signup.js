@@ -1,6 +1,15 @@
 import React, { useState, useCallback } from "react";
 import { Form, Input, Checkbox, Button } from "antd";
 
+export const useInput = (initValue = null) => {
+  // 반복이 많이 되면 이런식으로 커스텀훅 만들어서 사용도 가능.
+  const [value, setter] = useState(initValue);
+  const handler = useCallback((e) => {
+    setter(e.target.value);
+  }, []);
+  return [value, handler];
+};
+
 const Signup = () => {
   const [nick, setNick] = useState("");
   const [password, setPassword] = useState("");
@@ -39,15 +48,6 @@ const Signup = () => {
     setTermError(false);
     setTerm(e.target.checked);
   });
-
-  const useInput = (initValue = null) => {
-    // 반복이 많이 되면 이런식으로 커스텀훅 만들어서 사용도 가능.
-    const [value, setter] = useState(initValue);
-    const handler = useCallback((e) => {
-      setter(e.target.value);
-    }, []);
-    return [value, handler];
-  };
 
   const [id, onChangeId] = useInput(""); //이런식으로 커스텀훅 사용 가능.
 
