@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import PropTypes from "prop-types";
 import { Menu, Input, Button } from "antd";
 
 const AppLayout = ({ children }) => {
@@ -28,6 +29,11 @@ const AppLayout = ({ children }) => {
       {children}
     </div>
   );
+};
+
+AppLayout.propTypes = {
+  // ts하는게 아니라 prop-types로 검증해주면 좋을듯.
+  Component: PropTypes.node,
 };
 
 export default AppLayout;
