@@ -68,7 +68,6 @@ const AppLayout = ({ children }) => {
           세번째
         </Col>
       </Row>
-      {children}
     </div>
   );
 };
