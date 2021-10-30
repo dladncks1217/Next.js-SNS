@@ -3,6 +3,7 @@ import Link from "next/link";
 import PropTypes from "prop-types";
 import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from "antd";
 import LoginForm from "./LoginForm";
+import UserProfile from "./UserProfile";
 
 const dummy = {
   nickname: "임우찬",
@@ -32,34 +33,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row>
         <Col xs={24} md={6}>
-          {dummy.isLoggedIn ? (
-            <Card
-              actions={[
-                <div key="twit">
-                  짹짹
-                  <br />
-                  {dummy.Post.length}
-                </div>,
-                <div key="following">
-                  짹짹
-                  <br />
-                  {dummy.Followings.length}
-                </div>,
-                <div key="follower">
-                  짹짹
-                  <br />
-                  {dummy.Followers.length}
-                </div>,
-              ]}
-            >
-              <Card.Meta
-                avatar={<Avatar>{dummy.nickname[0]}</Avatar>}
-                title={dummy.nickname}
-              />
-            </Card>
-          ) : (
-            <LoginForm />
-          )}
+          {dummy.isLoggedIn ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}
