@@ -1,6 +1,6 @@
 import React from "react";
 import PostCard from "../components/PostCard";
-import PostForm from "../components/postForm";
+import PostForm from "../components/PostForm";
 
 const dummy = {
   isLoggedIn: true,
@@ -22,7 +22,7 @@ const Home = () => {
     <div>
       {dummy.isLoggedIn && <PostForm />}
       {dummy.mainPosts.map((c) => {
-        return <PostCard key={c} />;
+        return <PostCard key={c} post={c} />;
       })}
     </div>
   );

@@ -39,7 +39,9 @@ const AppLayout = ({ children }) => {
           {children}
         </Col>
         <Col xs={24} md={6}>
-          세번째
+          <Link href="https://blog.naver.com/dlaxodud2388">
+            <a target="_blank">made by Limwoochan</a>
+          </Link>
         </Col>
       </Row>
     </div>

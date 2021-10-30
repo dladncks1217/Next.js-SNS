@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, Input } from "antd";
-import Form from "rc-field-form/es/Form";
+import { Button, Input, Form } from "antd";
 
 const dummy = {
   isLoggedIn: true,
