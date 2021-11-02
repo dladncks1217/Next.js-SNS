@@ -3,6 +3,7 @@
 // 그게 이 index리듀서, 하나로 묶어주는거 redux에서 제공함.
 
 import { combineReducers } from "redux";
+
 import user from "./user";
 import post from "./post";
 
