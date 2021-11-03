@@ -10,7 +10,7 @@ import reducer from "../reducers";
 const NodeBird = ({ Component, store }) => {
   // nodebird에 store를 넣어줄 부분이 없어서 이걸 next-redux-wrapper를 사용하는 것이다.
   return (
-    <Provider store={store}>
+    <>
       <Head>
         <title>Nodebird</title>
         <link
@@ -21,7 +21,7 @@ const NodeBird = ({ Component, store }) => {
       <AppLayout>
         <Component />
       </AppLayout>
-    </Provider>
+    </>
   );
 };
 
