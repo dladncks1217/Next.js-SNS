@@ -5,16 +5,16 @@ export const initialState = {
 };
 
 // setState하는 부분이 통째로 action과 reducer로 변경되었다고 생각하면 될듯.
-const LOG_IN = "LOG_IN"; // 액션의 이름
-const LOG_OUT = "LOG_OUT";
+export const LOG_IN = "LOG_IN"; // 액션의 이름
+export const LOG_OUT = "LOG_OUT";
 
-const loginAction = {
+export const loginAction = {
   type: LOG_IN,
   data: {
     nickname: "임우찬",
   },
 };
-const logoutAction = {
+export const logoutAction = {
   type: LOG_OUT,
 };
 
