@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Form, Input, Checkbox, Button } from "antd";
+import { signUpAction } from "../reducers/user";
+import { useDispatch } from "react-redux";
 
 export const useInput = (initValue = null) => {
   // 반복이 많이 되면 이런식으로 커스텀훅 만들어서 사용도 가능.
@@ -11,6 +13,8 @@ export const useInput = (initValue = null) => {
 };
 
 const Signup = () => {
+  const dispatch = useDispatch();
+
   const [nick, setNick] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -26,6 +30,13 @@ const Signup = () => {
       if (!term) {
         return setTermError(true);
       }
+      dispatch(
+        signUpAction({
+          id,
+          password,
+          nick,
+        })
+      );
     },
     [password, passwordCheck, term]
   );
