@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import AppLayout from "../components/Applayout";
 import { applyMiddleware, createStore, compose } from "redux";
-import { Provider } from "react-redux"; // 이 provider는 컴포넌트임.
 import reducer from "../reducers";
 import sagaMiddleware from "../sagas/middlewares";
 import rootSaga from "../sagas";
@@ -54,9 +53,8 @@ export default withRedux((initialState, options) => {
         );
   const store = createStore(reducer, initialState, enhancer);
   // 여기에 store 커스터마이징
-
-  return store;
   sagaMiddleware.run(rootSaga);
+  return store;
 })(NodeBird); // 이런걸 고차 컴포넌트라고 부름. 컴포넌트의 기능 확장.
 
 /* 
