@@ -16,8 +16,9 @@ const Home = () => {
 
   console.log(user);
   useEffect(() => {
-    dispatch(loginAction);
-    dispatch(logoutAction);
+    dispatch({
+      type: "HELLO_SAGA",
+    });
     dispatch({
       type: "HELLO_SAGA",
     });
