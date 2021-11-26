@@ -18,7 +18,8 @@ function loginAPI() {
 
 function* login() {
   try {
-    yield delay(100);
+    // 요청 보내고 응답 다 받은 뒤 put 해야하기에, call 사용. (fork로 하면 서버 요청 후 값 안받고 put해버림.)
+    yield call(loginAPI);
     yield put({
       // put은 dispatch와 동일. ( 성공 시 LOG_IN_SUCCESS )
       type: LOG_IN_SUCCESS,
@@ -34,26 +35,22 @@ function* login() {
 
 function* watchLogin() {
   // 어지간해선 while true로 감싼다.(같은 사용자의 두 계정으로 접속할 수 있기에.) 그게 아니면 takeEvery, takeLates사용한다.
-  while (true) {
-    yield take(LOG_IN); // LOG_IN action이 들어오면 login함수를 호출.
-    // put은 saga의 dispatch
-    yield put({
-      type: LOG_IN_SUCCESS,
-    });
-  }
+  yield takeEvery(LOG_IN, login);
 }
 
 function* watchSignUp() {}
 
+function* hello() {
+  yield delay(1000);
+  yield put({
+    type: "BYE_SAGA",
+  });
+}
+
 function* watchHello() {
   // 얘가 while true임.
 
-  yield takeLatest(HELLO_SAGA, function* () {
-    yield delay(1000);
-    yield put({
-      type: "BYE_SAGA",
-    });
-  });
+  yield takeLatest(HELLO_SAGA, hello);
 }
 
 // function* watchHello() {
@@ -66,8 +63,10 @@ function* watchHello() {
 // }
 
 export default function* userSaga() {
-  yield all([watchLogin(), watchSignUp(), watchHello()]);
+  yield all([call(watchLogin()), fork(watchSignUp()), fork(watchHello())]);
 }
+// call과 Forks는 기본적으로 함수 실행.
+// call은 동기 호출, fork는 비동기 호출
 
 // saga 사용하며 반복문 사용해 몇번까지만 해서 제약을 걸면 제너레이터함수는 동작을 안하겠지만 reducer는 동작함.
 // saga에서 take를 eventListener라고 봐도 될듯
