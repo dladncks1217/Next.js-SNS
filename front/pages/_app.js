@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import withRedux from "next-redux-wrapper";
 import AppLayout from "../components/Applayout";
 import { applyMiddleware, createStore, compose } from "redux";
+import createSagaMiddleware from "@redux-saga/core";
+
 import reducer from "../reducers";
 import sagaMiddleware from "../sagas/middlewares";
 import rootSaga from "../sagas";
@@ -28,15 +30,13 @@ const NodeBird = ({ Component }) => {
 
 NodeBird.propTypes = {
   // ts하는게 아니라 prop-types로 검증해주면 좋을듯. (적은 비용으로 안정성을 더함)
-  Component: PropTypes.elementType,
-  store: PropTypes.object,
+  // isRequired는 꼭 있어야한다.
+  Component: PropTypes.elementType.isRequired,
+  store: PropTypes.object.isRequired,
 };
 
-// middleware 만드는법
-// (store)=>(next)=>(action)=>{ //~~~ 여기에 작업들 ~~  next(action);} 와 같이 만듬(currying이라고 함.) (3단 currying으로 만들음.)
-// (next가 디스패치임)
-// withRedux가 nodebird의 props로 store를 연결해줌.
-export default withRedux((initialState, options) => {
+const configureStore = (initialState, options) => {
+  const sagaMiddleware = createSagaMiddleware();
   // reducer action이 dispatch될 때 state를 어떻게 정의해야할지 정해둔게 reducer였음 여기서 state와 reducer가 합쳐진게 아래 store라고 보면 됨.
   const middlewares = [sagaMiddleware]; // 이부분만 계속 바뀐다고 보면 될듯.
   const enhancer =
@@ -55,7 +55,12 @@ export default withRedux((initialState, options) => {
   // 여기에 store 커스터마이징
   sagaMiddleware.run(rootSaga);
   return store;
-})(NodeBird); // 이런걸 고차 컴포넌트라고 부름. 컴포넌트의 기능 확장.
+};
+// middleware 만드는법
+// (store)=>(next)=>(action)=>{ //~~~ 여기에 작업들 ~~  next(action);} 와 같이 만듬(currying이라고 함.) (3단 currying으로 만들음.)
+// (next가 디스패치임)
+// withRedux가 nodebird의 props로 store를 연결해줌.
+export default withRedux(configureStore)(NodeBird); // 이런걸 고차 컴포넌트라고 부름. 컴포넌트의 기능 확장.
 
 /* 
 _document.js     ->    html, head, body
