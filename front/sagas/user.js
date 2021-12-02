@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   all,
   fork,
@@ -9,8 +10,6 @@ import {
   delay,
 } from "redux-saga/effects";
 import { LOG_IN, LOG_IN_SUCCESS, LOG_IN_FAILURE } from "../reducers/user";
-
-const HELLO_SAGA = "HELLO_SAGA";
 
 function loginAPI() {
   // 서버에 요청을 보냄.
@@ -38,32 +37,30 @@ function* watchLogin() {
   yield takeEvery(LOG_IN, login);
 }
 
-function* watchSignUp() {}
-
-function* hello() {
-  yield delay(1000);
-  yield put({
-    type: "BYE_SAGA",
-  });
+function* signUpAPI() {
+  return axios.get("/login");
 }
 
-function* watchHello() {
-  // 얘가 while true임.
-
-  yield takeLatest(HELLO_SAGA, hello);
+function* signUp() {
+  try {
+    yield call(signUpAPI);
+    yield put({
+      type: SIGN_UP_SUCCESS,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: SIGN_UP_FAILURE,
+    });
+  }
 }
 
-// function* watchHello() {
-//   yield take(HELLO_SAGA);
-//   console.log(1);
-//   console.log(2);
-//   console.log(3);
-//   console.log(4);
-//   console.log(5);
-// }
+function* watchSignUp() {
+  yield takeEvery(SIGN_UP_REQUEST, signUp);
+}
 
 export default function* userSaga() {
-  yield all([call(watchLogin()), fork(watchSignUp()), fork(watchHello())]);
+  yield all([call(watchLogin()), fork(watchSignUp())]);
 }
 // call과 Forks는 기본적으로 함수 실행.
 // call은 동기 호출, fork는 비동기 호출
