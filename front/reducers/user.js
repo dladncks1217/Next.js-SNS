@@ -10,7 +10,7 @@ export const initialState = {
   me: null, // 내 정보
   isLoggedIn: false, // 로그인 여부
   isLoggingOut: false, // 로그아웃 시도중
-  isLogginIn: false, // 로그인 시도중
+  isLoggingIn: false, // 로그인 시도중
   logInErrorReason: "", // 로그인 에러 사유
   signedUp: false, // 회원가입 성공
   isSigningUp: false, // 회원가입 시도중
@@ -58,26 +58,13 @@ export const REMOVE_FOLLOWER_FAILURE = "REMOVE_FOLLOWER_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 
-export const signUpAction = (data) => {
-  return {
-    type: SIGN_UP_REQUEST,
-    data: data,
-  };
-};
-export const loginAction = {
-  type: LOG_IN_REQUEST,
-};
-export const logoutAction = {
-  type: LOG_OUT_REQUEST,
-};
-
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN_REQUEST: {
       return {
         ...state,
-        loginData: action.data,
-        isLoading: true,
+        isLoggingIn: true,
+        logInErrorReason: "",
       };
     }
     case LOG_IN_FAILURE: {
@@ -85,6 +72,8 @@ export default (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         me: null,
+        isLoggingIn: false,
+        logInErrorReason: action.error,
       };
     }
     case LOG_IN_SUCCESS: {
@@ -92,7 +81,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoggedIn: true,
         me: dummyUser,
-        isLoading: false,
+        isLoggingIn: false,
       };
     }
     case LOG_OUT_REQUEST: {

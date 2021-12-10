@@ -16,6 +16,9 @@ export const initialState = {
   isAddingPost: false, // 포스트 업로드중
 };
 
+export const ADD_POST = "ADD_POST";
+export const ADD_DUMMY = "ADD_DUMMY";
+
 export const LOAD_MAIN_ADD_POSTS_REQUEST = "LOAD_MAIN_ADD_POSTS_REQUEST";
 export const LOAD_MAIN_ADD_POSTS_SUCCESS = "LOAD_MAIN_ADD_POSTS_SUCCESS";
 export const LOAD_MAIN_ADD_POSTS_FAILURE = "LOAD_MAIN_ADD_POSTS_FAILURE";
@@ -62,9 +65,9 @@ export const REMOVE_RETWEET_REQUEST = "REMOVE_RETWEET_REQUEST";
 export const REMOVE_RETWEET_SUCCESS = "REMOVE_RETWEET_SUCCESS";
 export const REMOVE_RETWEET_FAILURE = "REMOVE_RETWEET_FAILURE";
 
-const addPost = {
-  type: ADD_POST,
-};
+// const addPost = {
+//   type: ADD_POST,
+// };
 
 const addDummy = {
   type: ADD_DUMMY,

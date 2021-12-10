@@ -9,7 +9,14 @@ import {
   take,
   delay,
 } from "redux-saga/effects";
-import { LOG_IN, LOG_IN_SUCCESS, LOG_IN_FAILURE } from "../reducers/user";
+import {
+  LOG_IN,
+  LOG_IN_SUCCESS,
+  LOG_IN_REQUEST,
+  LOG_IN_FAILURE,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
+} from "../reducers/user";
 
 function loginAPI() {
   // 서버에 요청을 보냄.
@@ -18,7 +25,7 @@ function loginAPI() {
 function* login() {
   try {
     // 요청 보내고 응답 다 받은 뒤 put 해야하기에, call 사용. (fork로 하면 서버 요청 후 값 안받고 put해버림.)
-    yield call(loginAPI);
+    yield delay(3000);
     yield put({
       // put은 dispatch와 동일. ( 성공 시 LOG_IN_SUCCESS )
       type: LOG_IN_SUCCESS,
@@ -34,7 +41,7 @@ function* login() {
 
 function* watchLogin() {
   // 어지간해선 while true로 감싼다.(같은 사용자의 두 계정으로 접속할 수 있기에.) 그게 아니면 takeEvery, takeLates사용한다.
-  yield takeEvery(LOG_IN, login);
+  yield takeEvery(LOG_IN_REQUEST, login);
 }
 
 function* signUpAPI() {
@@ -60,7 +67,7 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([call(watchLogin()), fork(watchSignUp())]);
+  yield all([fork(watchLogin), fork(watchSignUp)]);
 }
 // call과 Forks는 기본적으로 함수 실행.
 // call은 동기 호출, fork는 비동기 호출
