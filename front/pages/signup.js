@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Form, Input, Checkbox, Button } from "antd";
-import { signUpAction, SIGN_UP_REQUEST } from "../reducers/user";
-import { useDispatch } from "react-redux";
+import { SIGN_UP_REQUEST } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
 
 export const useInput = (initValue = null) => {
   // 반복이 많이 되면 이런식으로 커스텀훅 만들어서 사용도 가능.
@@ -21,6 +21,7 @@ const Signup = () => {
   const [term, setTerm] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [termError, setTermError] = useState(false);
+  const { isSigningUp } = useSelector((state) => state.user);
 
   const onSubmit = useCallback(
     (e) => {
@@ -115,7 +116,7 @@ const Signup = () => {
           </Checkbox>
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isSigningUp}>
             가입하기
           </Button>
         </div>

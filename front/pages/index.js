@@ -11,10 +11,10 @@ import user, {
 
 const Home = () => {
   const dispatch = useDispatch(); // useSelector를 자주 쓰며 최대한 redux state를 잘게 써는게 좋다.
-  const { isLoggedIn, user } = useSelector((state) => state.user);
+  const { isLoggedIn, me } = useSelector((state) => state.user);
   const { mainPosts } = useSelector((state) => state.post);
 
-  console.log(user);
+  console.log(isLoggedIn);
   useEffect(() => {
     dispatch({
       type: "HELLO_SAGA",
@@ -29,8 +29,8 @@ const Home = () => {
 
   return (
     <div>
-      {user ? (
-        <div>로그인되었습니다.{user.nickname}</div>
+      {me ? (
+        <div>로그인되었습니다.{user.me}</div>
       ) : (
         <div>로그아웃되었습니다.</div>
       )}

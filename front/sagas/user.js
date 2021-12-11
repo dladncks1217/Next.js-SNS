@@ -16,6 +16,7 @@ import {
   LOG_IN_FAILURE,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
+  SIGN_UP_FAILURE,
 } from "../reducers/user";
 
 function loginAPI() {
@@ -45,12 +46,14 @@ function* watchLogin() {
 }
 
 function* signUpAPI() {
-  return axios.get("/login");
+  // return axios.post("/login");
 }
 
 function* signUp() {
   try {
     yield call(signUpAPI);
+    yield delay(2000);
+    throw new Error("에러났다아아아아아아");
     yield put({
       type: SIGN_UP_SUCCESS,
     });
