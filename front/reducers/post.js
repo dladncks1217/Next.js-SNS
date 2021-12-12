@@ -14,6 +14,15 @@ export const initialState = {
   addPostError: false, // 포스트 업로드 실패
   addPostErrorReason: false, // 포스트 업로드 실패 사유
   isAddingPost: false, // 포스트 업로드중
+  postAdded: false,
+};
+
+const dummyPost = {
+  User: {
+    id: 1,
+    nickname: "임우찬",
+  },
+  content: "나는 더미입니다.",
 };
 
 export const ADD_POST = "ADD_POST";
@@ -82,9 +91,27 @@ const addDummy = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_POST: {
+    case ADD_POST_REQUEST: {
       return {
         ...state,
+        isAddingPost: true,
+        addPostErrorReason: "",
+        postAdded: false,
+      };
+    }
+    case ADD_POST_SUCCESS: {
+      return {
+        ...state,
+        isAddingPost: false,
+        mainPosts: [dummyPost, ...state.mainPosts],
+        postAdded: true,
+      };
+    }
+    case ADD_POST_FAILURE: {
+      return {
+        ...state,
+        isAddingPost: false,
+        addPostErrorReason: action.error,
       };
     }
     case ADD_DUMMY: {

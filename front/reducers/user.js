@@ -4,6 +4,7 @@ const dummyUser = {
   Followings: [],
   Followers: [],
   signUpData: {},
+  id: 1,
 };
 export const initialState = {
   // 이 부분이 store, 여기 넣어준 값이 초기 state, 이게 react의 state라고 생각하면 될듯, 이 외 나머지는 setState라고 보면 될듯.

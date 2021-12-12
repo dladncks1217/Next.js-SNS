@@ -40,12 +40,7 @@ const LoginForm = () => {
         />
       </div>
       <div style={{ marginTop: 10 }}>
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={false}
-          loading={isLoggingIn}
-        >
+        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           로그인
         </Button>
         <Link href="/signup">
