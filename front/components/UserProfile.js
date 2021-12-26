@@ -17,27 +17,29 @@ const UserProfile = () => {
   }, []);
   return (
     <Card
-      actions={[
-        <div key="twit">
-          짹짹
-          <br />
-          {me.Post.length}
-        </div>,
-        <div key="following">
-          짹짹
-          <br />
-          {me.Followings.length}
-        </div>,
-        <div key="follower">
-          짹짹
-          <br />
-          {me.Followers.length}
-        </div>,
-      ]}
+      actions={
+        [
+          // <div key="twit">
+          //   짹짹
+          //   <br />
+          //   {me.Post.length}
+          // </div>,
+          // <div key="following">
+          //   짹짹
+          //   <br />
+          //   {me.Followings.length}
+          // </div>,
+          // <div key="follower">
+          //   짹짹
+          //   <br />
+          //   {me.Followers.length}
+          // </div>,
+        ]
+      }
     >
       <Card.Meta
-        avatar={<Avatar>{me.nickname[0]}</Avatar>}
-        title={me.nickname}
+        avatar={<Avatar>{me.data.nickname[0]}</Avatar>}
+        title={me.data.nickname}
       />
       <Button onClick={onLogout}>로그아웃</Button>
     </Card>

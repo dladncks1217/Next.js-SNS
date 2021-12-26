@@ -16,16 +16,18 @@ axios.defaults.baseURL = "http://localhost:3065";
 
 function loginAPI(loginData) {
   // 서버에 요청을 보냄.
-  return axios.post("/user/login", loginData).data;
+  return axios.post("/user/login", loginData);
 }
 
 function* login(action) {
   try {
     // 요청 보내고 응답 다 받은 뒤 put 해야하기에, call 사용. (fork로 하면 서버 요청 후 값 안받고 put해버림.)
-    yield call(loginAPI, action.data);
+    const result = yield call(loginAPI, action.data);
+    console.log(result);
     yield put({
       // put은 dispatch와 동일. ( 성공 시 LOG_IN_SUCCESS )
       type: LOG_IN_SUCCESS,
+      data: result,
     });
   } catch (e) {
     console.error(e);
@@ -42,14 +44,15 @@ function* watchLogin() {
 }
 
 function logoutAPI(logoutData) {
-  return axios.post("/user/logout", logoutData).data;
+  return axios.post("/user/logout", logoutData);
 }
 
 function* logout(action) {
   try {
-    yield call(logoutAPI, action.data);
+    const result = yield call(logoutAPI, action.data);
     yield put({
       type: LOG_OUT_SUCCESS,
+      data: result,
     });
   } catch (e) {
     console.error(e);
@@ -70,9 +73,10 @@ function* signUpAPI(signUpData) {
 
 function* signUp(action) {
   try {
-    yield call(signUpAPI, action.data);
+    const result = yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
+      data: result,
     });
   } catch (e) {
     console.error(e);

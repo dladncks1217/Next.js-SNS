@@ -78,18 +78,34 @@ export default (state = initialState, action) => {
       };
     }
     case LOG_IN_SUCCESS: {
+      console.log(action);
       return {
         ...state,
         isLoggedIn: true,
-        me: dummyUser,
+        me: action.data,
         isLoggingIn: false,
       };
     }
     case LOG_OUT_REQUEST: {
       return {
         ...state,
-        me: false,
         user: null,
+      };
+    }
+    case LOG_OUT_SUCCESS: {
+      return {
+        ...state,
+        isLoggedIn: false,
+        me: null,
+        isLoggingIn: false,
+      };
+    }
+    case LOG_OUT_FAILURE: {
+      return {
+        ...state,
+        isLoggedIn: false,
+        isLoggingIn: false,
+        logOutErrorReason: action.error,
       };
     }
     case SIGN_UP_REQUEST: {

@@ -12,11 +12,10 @@ const LoginForm = () => {
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
     dispatch({
       type: LOG_IN_REQUEST,
       data: {
-        id,
+        email: id,
         password,
       },
     });
