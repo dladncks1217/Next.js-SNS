@@ -39,12 +39,13 @@ const Signup = () => {
       if (!term) {
         return setTermError(true);
       }
+      console.log(id, password, nick);
       dispatch({
         type: SIGN_UP_REQUEST,
         data: {
-          id,
+          email: id,
           password,
-          nick,
+          nickname: nick,
         },
       });
     },

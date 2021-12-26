@@ -1,32 +1,28 @@
 import axios from "axios";
+import { all, fork, takeEvery, call, put, delay } from "redux-saga/effects";
 import {
-  all,
-  fork,
-  takeLatest,
-  takeEvery,
-  call,
-  put,
-  take,
-  delay,
-} from "redux-saga/effects";
-import {
-  LOG_IN,
   LOG_IN_SUCCESS,
   LOG_IN_REQUEST,
   LOG_IN_FAILURE,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAILURE,
+  LOG_OUT_REQUEST,
 } from "../reducers/user";
 
-function loginAPI() {
+axios.defaults.baseURL = "http://localhost:3065";
+
+function loginAPI(loginData) {
   // 서버에 요청을 보냄.
+  return axios.post("/user/login", loginData).data;
 }
 
-function* login() {
+function* login(action) {
   try {
     // 요청 보내고 응답 다 받은 뒤 put 해야하기에, call 사용. (fork로 하면 서버 요청 후 값 안받고 put해버림.)
-    yield delay(3000);
+    yield call(loginAPI, action.data);
     yield put({
       // put은 dispatch와 동일. ( 성공 시 LOG_IN_SUCCESS )
       type: LOG_IN_SUCCESS,
@@ -45,15 +41,36 @@ function* watchLogin() {
   yield takeEvery(LOG_IN_REQUEST, login);
 }
 
-function* signUpAPI() {
-  // return axios.post("/login");
+function logoutAPI(logoutData) {
+  return axios.post("/user/logout", logoutData).data;
 }
 
-function* signUp() {
+function* logout(action) {
   try {
-    yield call(signUpAPI);
-    yield delay(2000);
-    throw new Error("에러났다아아아아아아");
+    yield call(logoutAPI, action.data);
+    yield put({
+      type: LOG_OUT_SUCCESS,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: LOG_OUT_FAILURE,
+    });
+  }
+}
+
+function* watchLogout() {
+  yield takeEvery(LOG_OUT_REQUEST, logout);
+}
+
+function* signUpAPI(signUpData) {
+  console.log(signUpData);
+  return axios.post("/user", signUpData);
+}
+
+function* signUp(action) {
+  try {
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -70,7 +87,7 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchSignUp)]);
+  yield all([fork(watchLogin), fork(watchSignUp), fork(watchLogout)]);
 }
 // call과 Forks는 기본적으로 함수 실행.
 // call은 동기 호출, fork는 비동기 호출

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import Link from "next/link";
 import { useInput } from "../pages/signup";
@@ -7,11 +7,12 @@ import { LOG_IN_REQUEST } from "../reducers/user";
 
 const LoginForm = () => {
   const [id, onChangeId] = useInput("");
-  const [password, onChangePassword] = useState("");
+  const [password, onChangePassword] = useInput("");
   const { isLoggingIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const onSubmitForm = useCallback(() => {
+    console.log(id, password);
     dispatch({
       type: LOG_IN_REQUEST,
       data: {
@@ -26,7 +27,7 @@ const LoginForm = () => {
       <div>
         <label htmlFor="user-id">아이디</label>
         <br />
-        <Input name="user-id" required value={id} onChange={onChangeId} />
+        <Input name="email" required value={id} onChange={onChangeId} />
       </div>
       <div>
         <label htmlFor="user-password">비밀번호</label>

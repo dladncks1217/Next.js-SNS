@@ -15,17 +15,6 @@ const Home = () => {
   const { mainPosts } = useSelector((state) => state.post);
 
   console.log(isLoggedIn);
-  useEffect(() => {
-    dispatch({
-      type: "HELLO_SAGA",
-    });
-    dispatch({
-      type: "HELLO_SAGA",
-    });
-    dispatch({
-      type: "HELLO_SAGA",
-    });
-  }, []);
 
   return (
     <div>
